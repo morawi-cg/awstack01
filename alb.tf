@@ -14,7 +14,7 @@ resource "aws_alb" "awstack_alb" { # needed to remove 01 from name as syntax iss
 resource "aws_alb_listener" "alb_listener" {  
   load_balancer_arn = "${aws_alb.awstack_alb.arn}"  
   port              = "80"  
-  protocol          = "tcp"
+  protocol          = "HTTP"
   
   default_action {    
     target_group_arn = "${aws_alb_target_group.alb_target.arn}"
