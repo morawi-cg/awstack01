@@ -6,10 +6,12 @@ resource "aws_subnet" "awstack01_public_sub" {
      vpc_id = "${aws_vpc.awstack01_vpc.id}"
      cidr_block = "${var.public_subnet_cidr}" 
      availability_zone = "eu-west-2a"
+     map_public_ip_on_launch = true   # Giving Nginx public access
 }
 
 resource "aws_subnet" "awstack01_private_sub" {
        vpc_id = "${aws_vpc.awstack01_vpc.id}"
        cidr_block = "${var.private_subnet_cidr}"
        availability_zone = "eu-west-2b"
+       map_public_ip_on_launch = false
 }
