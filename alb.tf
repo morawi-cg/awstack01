@@ -46,8 +46,58 @@ resource "aws_alb_target_group" "alb_target" {
 }
 
 #Instance Attachment
-resource "aws_alb_target_group_attachment" "svc_physical_external" {
+resource "aws_alb_target_group_attachment" "svc_physical_external_a" {
   target_group_arn = "${aws_alb_target_group.alb_target.arn}"
   target_id        = "${aws_instance.Nginx.id}"  
   port             = 80
 }
+
+
+### More rules for the Jenkins server:
+
+resource "aws_alb_listener_rule" "Nginx_listener_rule" {
+  depends_on   = ["aws_alb_target_group.alb_target"]  
+  listener_arn = "${aws_alb_listener.alb_listener.arn}"  
+  priority     = "3"   
+  action {    
+    type             = "forward"    
+    target_group_arn = "${aws_alb_target_group.alb_target.id}"  
+  }   
+  condition {    
+    field  = "path-pattern"    
+    values = ["/web"]  
+  }
+}
+
+resource "aws_alb_listener_rule" "Jenkins_listener_rule" {
+  depends_on   = ["aws_alb_target_group.alb_target_jenkins"]  # for jenkins 
+  listener_arn = "${aws_alb_listener.alb_listener.arn}"
+  priority     = "2"
+  action {
+    type             = "forward"
+    target_group_arn = "${aws_alb_target_group.alb_target_jenkins.id}"
+  }
+  condition {
+    field  = "path-pattern"
+    values = ["/jenkins"]
+  }
+}
+
+
+resource "aws_alb_target_group" "alb_target_jenkins" {
+  name     = "alb-target-group-jenkins" # name must never thave underscores many errors on this
+  port     = "80"
+  protocol = "HTTP"
+  vpc_id   = "${aws_vpc.awstack01_vpc.id}"
+  tags {
+    name = "aws-alb-target-group-jenkins"
+  }
+}
+
+#Instance Attachment
+resource "aws_alb_target_group_attachment" "svc_physical_external" {
+  target_group_arn = "${aws_alb_target_group.alb_target.arn}"
+  target_id        = "${aws_instance.Jenkins.id}"
+  port             = 80
+}
+

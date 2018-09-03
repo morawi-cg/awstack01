@@ -56,6 +56,7 @@ tags {
 resource "aws_instance" "awstack01_nat_instance_gw" {
   ami           = "ami-e1768386"
   subnet_id     = "${aws_subnet.awstack01_public_sub.id}"
+  key_name = "awstack01-key"
   instance_type = "t2.micro"
   source_dest_check = false
   tags {
