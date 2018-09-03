@@ -1,9 +1,9 @@
 resource "aws_s3_bucket" "awstack_scripts_s3" {
-  bucket = "awstack01_scripts_s3"
+  bucket = "awstackscriptsbucket"
   acl    = "private"
 
   tags {
-    Name        = "awstack01_scripts_s3"
+    Name        = "awstackscriptsbucket"
     Environment = "Dev"
   }
 }

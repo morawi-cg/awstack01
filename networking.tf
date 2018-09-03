@@ -34,7 +34,7 @@ resource "aws_route_table" "awstack_routing_table_private" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = "${aws_instance.awstack01_nat_instance_gw.id}"
+    instance_id = "${aws_instance.awstack01_nat_instance_gw.id}"
   } 
 
   #route {

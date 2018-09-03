@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "Updating Nginx VM and installing Nginx"
 yum -y update
-yum -y install nginx
+amazon-linux-extras install -y  nginx1.12
 echo "Finished installing Nginx now"
-
-exit 0 
+systemctl start nginx
+exit 0
