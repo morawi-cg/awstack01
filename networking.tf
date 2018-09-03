@@ -59,6 +59,8 @@ resource "aws_instance" "awstack01_nat_instance_gw" {
   key_name = "awstack01-key"
   instance_type = "t2.micro"
   source_dest_check = false
+  vpc_security_group_ids = ["${aws_security_group.natgateway.id}"]
+  associate_public_ip_address = true
   tags {
     Name = "awstack01_nat_instance_gw"
   }
